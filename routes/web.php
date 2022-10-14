@@ -6,6 +6,8 @@ use App\Http\Controllers\InfoUserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -41,17 +43,14 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('rtl');
 	})->name('rtl');
 
-	Route::get('user-management', function () {
-		return view('laravel-examples/user-management');
-	})->name('user-management');
-
-	Route::get('tables', function () {
-		return view('tables');
-	})->name('tables');
-
-    Route::get('virtual-reality', function () {
-		return view('virtual-reality');
-	})->name('virtual-reality');
+	Route::get('user-management', [UsersController::class,'getUsers']);
+	Route::post('user-management/{id}', [UsersController::class,'editUser']);
+	Route::get('transactions-management', [AdminController::class,'getTransactions']);
+	Route::get('bets-management', [AdminController::class,'getBetsHistory']);
+	Route::get('bank-details', [AdminController::class,'getBankDetails']);
+	Route::get('crash-rates', [AdminController::class,'getRatesSchedule']);
+	Route::get('crash-history', [AdminController::class,'getCrashHistory']);
+	Route::post('updateBankDetails', [AdminController::class, 'updateBankDetails']);
 
     Route::get('static-sign-in', function () {
 		return view('static-sign-in');
